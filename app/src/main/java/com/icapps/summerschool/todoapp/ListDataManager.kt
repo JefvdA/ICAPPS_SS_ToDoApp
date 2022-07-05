@@ -21,6 +21,7 @@ class ListDataManager(var context: Context) {
 
     fun readTodoList(): MutableList<TodoItem> {
         val sharedPrefs = PreferenceManager.getDefaultSharedPreferences(context)
+        // TODO: Keep order of the items
         val contents = sharedPrefs.all
 
         var todoList = mutableListOf<TodoItem>()
