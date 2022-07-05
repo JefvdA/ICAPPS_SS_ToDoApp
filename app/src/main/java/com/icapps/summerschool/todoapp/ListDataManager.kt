@@ -1,19 +1,36 @@
 package com.icapps.summerschool.todoapp
 
 import android.content.Context
+import android.util.Log
 import androidx.preference.PreferenceManager
+import kotlin.reflect.typeOf
 
 class ListDataManager(var context: Context) {
-    fun saveTodoList(todoList: MutableList<String>) {
-        PreferenceManager.getDefaultSharedPreferences(context)
+    fun saveTodoList(todoList: MutableList<TodoItem>) {
+        val sharedPrefs = PreferenceManager.getDefaultSharedPreferences(context)
             .edit()
-            .putStringSet("Mocked_data", todoList.toHashSet())
+
+        for(todoItem: TodoItem in todoList) {
+            sharedPrefs
+                .putStringSet(todoItem.description, todoItem.tasks.toHashSet())
+        }
+
+        sharedPrefs
             .apply()
     }
 
-    fun readTodoList(): MutableList<String> {
-        return PreferenceManager.getDefaultSharedPreferences(context)
-            .getStringSet("Mocked_data", mutableSetOf())
-            ?.toMutableList() ?: mutableListOf()
+    fun readTodoList(): MutableList<TodoItem> {
+        val sharedPrefs = PreferenceManager.getDefaultSharedPreferences(context)
+        val contents = sharedPrefs.all
+
+        var todoList = mutableListOf<TodoItem>()
+
+        for (todoItemDescription in contents.keys) {
+            val todoTasks = sharedPrefs.getStringSet(todoItemDescription, HashSet<String>())
+                ?.toMutableList() ?: mutableListOf()
+            todoList.add(TodoItem(todoItemDescription, todoTasks))
+        }
+
+        return todoList
     }
 }

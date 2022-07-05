@@ -29,7 +29,7 @@ class LaunchActivity : AppCompatActivity() {
 
         todoListRecyclerView = findViewById<RecyclerView?>(R.id.todoListRecyclerView).let {
             it.layoutManager = LinearLayoutManager(this@LaunchActivity)
-            todoListAdapter = TodoListAdapter(mutableListOf("Winkelen", "Kuisen", "Koken"))
+            todoListAdapter = TodoListAdapter(listDataManager.readTodoList())
             it.adapter = todoListAdapter
             it
         }
@@ -64,7 +64,7 @@ class LaunchActivity : AppCompatActivity() {
             .setView(addTodoItemEditText)
             .setPositiveButton("Create") { dialogInterface: DialogInterface, _: Int ->
                 val newTodoItemDescription = addTodoItemEditText.text.toString()
-                todoListAdapter.addNewTodoItem(newTodoItemDescription)
+                todoListAdapter.addNewTodoItem(TodoItem(newTodoItemDescription, mutableListOf()))
                 dialogInterface.dismiss()
             }
             .setNegativeButton("Cancel") { dialogInterface: DialogInterface, _: Int ->
