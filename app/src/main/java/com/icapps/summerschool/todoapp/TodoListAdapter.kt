@@ -17,6 +17,14 @@ class TodoListAdapter(private var toDoList: MutableList<String>) : RecyclerView.
         return toDoList.count()
     }
 
+    fun getTodoList(): MutableList<String> {
+        return toDoList
+    }
+
+    fun setTodoList(newTodoList: MutableList<String>) {
+        toDoList = newTodoList
+    }
+
     fun addNewTodoItem(todoItem: String) {
         if (todoItem.isNotEmpty())
             toDoList.add(todoItem)

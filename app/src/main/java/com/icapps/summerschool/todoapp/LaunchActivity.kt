@@ -12,6 +12,8 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton
 
 class LaunchActivity : AppCompatActivity() {
 
+    private val listDataManager: ListDataManager = ListDataManager(this)
+
     private lateinit var todoListRecyclerView: RecyclerView
     private lateinit var addTodoItemFAB: FloatingActionButton
 
@@ -36,6 +38,19 @@ class LaunchActivity : AppCompatActivity() {
         addTodoItemFAB.setOnClickListener {
             showCreateTodoItemDialog()
         }
+    }
+
+    override fun onStart() {
+        val todoList = listDataManager.readTodoList()
+        todoListAdapter.setTodoList(todoList)
+
+        super.onStart()
+    }
+
+    override fun onStop() {
+        listDataManager.saveTodoList(todoListAdapter.getTodoList())
+
+        super.onStop()
     }
 
     private fun showCreateTodoItemDialog() {
