@@ -4,7 +4,7 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 
-class ToDoListAdapter(private var toDoList: MutableList<String>) : RecyclerView.Adapter<TodoItemViewHolder>() {
+class TodoListAdapter(private var toDoList: MutableList<String>) : RecyclerView.Adapter<TodoItemViewHolder>() {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TodoItemViewHolder {
         return TodoItemViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.list_item_todo, parent, false))
     }

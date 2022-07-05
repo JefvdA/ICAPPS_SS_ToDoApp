@@ -15,7 +15,7 @@ class LaunchActivity : AppCompatActivity() {
     private lateinit var todoListRecyclerView: RecyclerView
     private lateinit var addTodoItemFAB: FloatingActionButton
 
-    private lateinit var todoListAdapter: ToDoListAdapter
+    private lateinit var todoListAdapter: TodoListAdapter
 
     companion object {
         private val TAG = MainActivity::class.java.simpleName
@@ -27,7 +27,7 @@ class LaunchActivity : AppCompatActivity() {
 
         todoListRecyclerView = findViewById<RecyclerView?>(R.id.todoListRecyclerView).let {
             it.layoutManager = LinearLayoutManager(this@LaunchActivity)
-            todoListAdapter = ToDoListAdapter(mutableListOf("Winkelen", "Kuisen", "Koken"))
+            todoListAdapter = TodoListAdapter(mutableListOf("Winkelen", "Kuisen", "Koken"))
             it.adapter = todoListAdapter
             it
         }
