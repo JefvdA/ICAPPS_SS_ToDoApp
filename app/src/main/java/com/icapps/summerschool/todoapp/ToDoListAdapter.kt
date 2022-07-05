@@ -4,7 +4,7 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 
-class ToDoListAdapter(private var toDoList: List<String>) : RecyclerView.Adapter<TodoItemViewHolder>() {
+class ToDoListAdapter(private var toDoList: MutableList<String>) : RecyclerView.Adapter<TodoItemViewHolder>() {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TodoItemViewHolder {
         return TodoItemViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.list_item_todo, parent, false))
     }
@@ -15,5 +15,10 @@ class ToDoListAdapter(private var toDoList: List<String>) : RecyclerView.Adapter
 
     override fun getItemCount(): Int {
         return toDoList.count()
+    }
+
+    fun addNewTodoItem(todoItem: String) {
+        if (todoItem.isNotEmpty())
+            toDoList.add(todoItem)
     }
 }
