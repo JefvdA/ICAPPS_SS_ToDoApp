@@ -27,7 +27,7 @@ class TodoListAdapter(var todoList: MutableList<TodoItem>) : RecyclerView.Adapte
     }
 
     fun sortTodoList() {
-        val sortedTodoList = todoList.sortedBy { it.description }.toMutableList()
+        val sortedTodoList = todoList.sortedBy { it.description.lowercase() }.toMutableList()
         todoList = sortedTodoList
     }
 }

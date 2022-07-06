@@ -55,7 +55,7 @@ class LaunchActivity : AppCompatActivity() {
 
     private fun showCreateTodoItemDialog() {
         val addTodoItemEditText = EditText(this).apply {
-            inputType = InputType.TYPE_CLASS_TEXT
+            inputType = InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_FLAG_CAP_WORDS
         }
 
         AlertDialog.Builder(this)
