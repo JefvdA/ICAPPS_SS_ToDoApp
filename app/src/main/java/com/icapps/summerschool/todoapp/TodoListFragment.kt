@@ -54,6 +54,12 @@ class TodoListFragment : Fragment() {
         todoListViewModel.readTodoList()
     }
 
+    override fun onStart() {
+        super.onStart()
+
+        todoListViewModel.readTodoList()
+    }
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
