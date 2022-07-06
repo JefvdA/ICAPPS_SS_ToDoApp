@@ -1,9 +1,14 @@
 package com.icapps.summerschool.todoapp
 
+import android.app.Application
 import android.content.Context
+import androidx.lifecycle.AndroidViewModel
 import androidx.preference.PreferenceManager
 
-class ListDataManager(var context: Context) {
+class ListDataManager(application: Application): AndroidViewModel(application) {
+
+    private val context = application.applicationContext
+
     fun saveTodoList(todoList: MutableList<TodoItem>) {
         val sharedPrefs = PreferenceManager.getDefaultSharedPreferences(context)
             .edit()
