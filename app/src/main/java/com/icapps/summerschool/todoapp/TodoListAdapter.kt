@@ -17,18 +17,4 @@ class TodoListAdapter(var todoList: MutableList<TodoItem>, private val clickList
     override fun getItemCount(): Int {
         return todoList.count()
     }
-
-    fun addNewTodoItem(todoItem: TodoItem) {
-        if (todoItem.description.isNotEmpty()) {
-            todoList.add(todoItem)
-            this.notifyItemInserted(todoList.size - 1)
-        }
-        sortTodoList()
-        notifyItemRangeChanged(todoList.indexOf(todoItem), todoList.size)
-    }
-
-    fun sortTodoList() {
-        val sortedTodoList = todoList.sortedBy { it.description.lowercase() }.toMutableList()
-        todoList = sortedTodoList
-    }
 }

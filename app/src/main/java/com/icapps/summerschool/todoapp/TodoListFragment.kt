@@ -10,6 +10,8 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.EditText
 import androidx.appcompat.app.AlertDialog
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -23,7 +25,7 @@ class TodoListFragment : Fragment() {
 
     private var _binding: FragmentTodoListBinding? = null
 
-    private lateinit var listDataManager: ListDataManager
+    private lateinit var todoListViewModel: TodoListViewModel
 
     private lateinit var todoListRecyclerView: RecyclerView
     private lateinit var addTodoItemFAB: FloatingActionButton
@@ -38,6 +40,20 @@ class TodoListFragment : Fragment() {
         private val TAG = TodoListFragment::class.java.simpleName
     }
 
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+
+        todoListViewModel = ViewModelProvider(this).get(TodoListViewModel::class.java)
+        todoListViewModel.todoList.observe(this) {
+            it?.let {
+                todoListAdapter.todoList = it
+                todoListAdapter.notifyDataSetChanged()
+            }
+        }
+
+        todoListViewModel.readTodoList()
+    }
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -49,8 +65,6 @@ class TodoListFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
-        listDataManager = ListDataManager(view.context)
 
         todoListRecyclerView = binding.todoListRecyclerView.let {
             it.layoutManager = LinearLayoutManager(binding.root.context)
@@ -68,19 +82,6 @@ class TodoListFragment : Fragment() {
         }
     }
 
-    override fun onStart() {
-        todoListAdapter.todoList = listDataManager.readTodoList()
-        todoListAdapter.sortTodoList()
-
-        super.onStart()
-    }
-
-    override fun onStop() {
-        listDataManager.saveTodoList(todoListAdapter.todoList)
-
-        super.onStop()
-    }
-
     private fun showCreateTodoItemDialog() {
         val addTodoItemEditText = EditText(binding.root.context).apply {
             inputType = InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_FLAG_CAP_WORDS
@@ -92,7 +93,7 @@ class TodoListFragment : Fragment() {
             .setView(addTodoItemEditText)
             .setPositiveButton(getString(R.string.create)) { dialogInterface: DialogInterface, _: Int ->
                 val newTodoItemDescription = addTodoItemEditText.text.toString()
-                todoListAdapter.addNewTodoItem(TodoItem(newTodoItemDescription, mutableListOf()))
+                todoListViewModel.saveTodoItem(TodoItem(newTodoItemDescription, mutableListOf()))
                 dialogInterface.dismiss()
             }
             .setNegativeButton(getString(R.string.cancel)) { dialogInterface: DialogInterface, _: Int ->

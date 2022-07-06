@@ -3,30 +3,33 @@ package com.icapps.summerschool.todoapp
 import android.app.Application
 import android.content.Context
 import androidx.lifecycle.AndroidViewModel
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.preference.PreferenceManager
 
-class ListDataManager(application: Application): AndroidViewModel(application) {
+class TodoListViewModel(application: Application): AndroidViewModel(application) {
 
     private val context = application.applicationContext
+    private val _todoList = MutableLiveData<MutableList<TodoItem>>()
+    val todoList: LiveData<MutableList<TodoItem>>
+        get() = _todoList
 
-    fun saveTodoList(todoList: MutableList<TodoItem>) {
+    fun saveTodoItem(todoItem: TodoItem) {
         val sharedPrefs = PreferenceManager.getDefaultSharedPreferences(context)
             .edit()
 
-        for(todoItem: TodoItem in todoList) {
-            sharedPrefs
-                .putStringSet(todoItem.description, todoItem.tasks.toHashSet())
-        }
-
         sharedPrefs
+            .putStringSet(todoItem.description, todoItem.tasks.toHashSet())
             .apply()
+
+        readTodoList()
     }
 
-    fun readTodoList(): MutableList<TodoItem> {
+    fun readTodoList() {
         val sharedPrefs = PreferenceManager.getDefaultSharedPreferences(context)
         val contents = sharedPrefs.all
 
-        val thingsTodo = mutableListOf<TodoItem>()
+        var thingsTodo = mutableListOf<TodoItem>()
 
         for (todoItemDescription in contents.keys) {
             val todoTasks = sharedPrefs.getStringSet(todoItemDescription, HashSet<String>())
@@ -34,6 +37,8 @@ class ListDataManager(application: Application): AndroidViewModel(application) {
             thingsTodo.add(TodoItem(todoItemDescription, todoTasks))
         }
 
-        return thingsTodo
+        thingsTodo = thingsTodo.sortedBy { it.description.lowercase() }.toMutableList()
+
+        _todoList.postValue(thingsTodo)
     }
 }
