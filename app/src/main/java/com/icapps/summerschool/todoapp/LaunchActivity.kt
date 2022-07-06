@@ -59,15 +59,15 @@ class LaunchActivity : AppCompatActivity() {
         }
 
         AlertDialog.Builder(this)
-            .setTitle("Create todo item")
-            .setMessage("Give the description of the todo item:")
+            .setTitle(getString(R.string.create_todo_item_dialog_title))
+            .setMessage(getString(R.string.create_todo_item_dialog_message))
             .setView(addTodoItemEditText)
-            .setPositiveButton("Create") { dialogInterface: DialogInterface, _: Int ->
+            .setPositiveButton(getString(R.string.create)) { dialogInterface: DialogInterface, _: Int ->
                 val newTodoItemDescription = addTodoItemEditText.text.toString()
                 todoListAdapter.addNewTodoItem(TodoItem(newTodoItemDescription, mutableListOf()))
                 dialogInterface.dismiss()
             }
-            .setNegativeButton("Cancel") { dialogInterface: DialogInterface, _: Int ->
+            .setNegativeButton(getString(R.string.cancel)) { dialogInterface: DialogInterface, _: Int ->
                 dialogInterface.dismiss()
             }
             .create()
