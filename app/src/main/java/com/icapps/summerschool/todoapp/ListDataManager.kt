@@ -1,9 +1,7 @@
 package com.icapps.summerschool.todoapp
 
 import android.content.Context
-import android.util.Log
 import androidx.preference.PreferenceManager
-import kotlin.reflect.typeOf
 
 class ListDataManager(var context: Context) {
     fun saveTodoList(todoList: MutableList<TodoItem>) {
@@ -21,17 +19,16 @@ class ListDataManager(var context: Context) {
 
     fun readTodoList(): MutableList<TodoItem> {
         val sharedPrefs = PreferenceManager.getDefaultSharedPreferences(context)
-        // TODO: Keep order of the items
         val contents = sharedPrefs.all
 
-        var todoList = mutableListOf<TodoItem>()
+        val thingsTodo = mutableListOf<TodoItem>()
 
         for (todoItemDescription in contents.keys) {
             val todoTasks = sharedPrefs.getStringSet(todoItemDescription, HashSet<String>())
                 ?.toMutableList() ?: mutableListOf()
-            todoList.add(TodoItem(todoItemDescription, todoTasks))
+            thingsTodo.add(TodoItem(todoItemDescription, todoTasks))
         }
 
-        return todoList
+        return thingsTodo
     }
 }

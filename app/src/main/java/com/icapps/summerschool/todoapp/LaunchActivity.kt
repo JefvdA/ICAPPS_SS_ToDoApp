@@ -29,7 +29,7 @@ class LaunchActivity : AppCompatActivity() {
 
         todoListRecyclerView = findViewById<RecyclerView?>(R.id.todoListRecyclerView).let {
             it.layoutManager = LinearLayoutManager(this@LaunchActivity)
-            todoListAdapter = TodoListAdapter(listDataManager.readTodoList())
+            todoListAdapter = TodoListAdapter(mutableListOf())
             it.adapter = todoListAdapter
             it
         }
@@ -41,14 +41,14 @@ class LaunchActivity : AppCompatActivity() {
     }
 
     override fun onStart() {
-        val todoList = listDataManager.readTodoList()
-        todoListAdapter.setTodoList(todoList)
+        todoListAdapter.todoList = listDataManager.readTodoList()
+        todoListAdapter.sortTodoList()
 
         super.onStart()
     }
 
     override fun onStop() {
-        listDataManager.saveTodoList(todoListAdapter.getTodoList())
+        listDataManager.saveTodoList(todoListAdapter.todoList)
 
         super.onStop()
     }
