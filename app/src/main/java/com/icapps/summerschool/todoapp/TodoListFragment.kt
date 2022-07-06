@@ -3,64 +3,69 @@ package com.icapps.summerschool.todoapp
 import android.content.DialogInterface
 import android.os.Bundle
 import android.text.InputType
-import android.util.Log
+import androidx.fragment.app.Fragment
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
 import android.widget.EditText
 import androidx.appcompat.app.AlertDialog
-import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.floatingactionbutton.FloatingActionButton
+import com.icapps.summerschool.todoapp.databinding.FragmentTodoListBinding
 
-class LaunchActivity : AppCompatActivity() {
+/**
+ * A simple [Fragment] subclass as the default destination in the navigation.
+ */
+class TodoListFragment : Fragment() {
 
-    private val listDataManager: ListDataManager = ListDataManager(this)
+    private var _binding: FragmentTodoListBinding? = null
+
+    private lateinit var listDataManager: ListDataManager
 
     private lateinit var todoListRecyclerView: RecyclerView
     private lateinit var addTodoItemFAB: FloatingActionButton
 
     private lateinit var todoListAdapter: TodoListAdapter
 
-    companion object {
-        private val TAG = LaunchActivity::class.java.simpleName
+    // This property is only valid between onCreateView and
+    // onDestroyView.
+    private val binding get() = _binding!!
+
+    override fun onCreateView(
+        inflater: LayoutInflater, container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View {
+        _binding = FragmentTodoListBinding.inflate(inflater, container, false)
+
+        return binding.root
     }
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_launch)
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
 
-        todoListRecyclerView = findViewById<RecyclerView?>(R.id.todoListRecyclerView).let {
-            it.layoutManager = LinearLayoutManager(this@LaunchActivity)
-            todoListAdapter = TodoListAdapter(mutableListOf()) { todoItem ->
-            }
+        listDataManager = ListDataManager(view.context)
+
+        todoListRecyclerView = binding.todoListRecyclerView.let {
+            it.layoutManager = LinearLayoutManager(binding.root.context)
+            todoListAdapter = TodoListAdapter(mutableListOf()) {}
             it.adapter = todoListAdapter
             it
         }
 
-        addTodoItemFAB = findViewById(R.id.addTodoItemFAB)
         addTodoItemFAB.setOnClickListener {
             showCreateTodoItemDialog()
         }
-    }
 
-    override fun onStart() {
-        todoListAdapter.todoList = listDataManager.readTodoList()
-        todoListAdapter.sortTodoList()
-
-        super.onStart()
-    }
-
-    override fun onStop() {
-        listDataManager.saveTodoList(todoListAdapter.todoList)
-
-        super.onStop()
+        addTodoItemFAB = binding.addTodoItemFAB
     }
 
     private fun showCreateTodoItemDialog() {
-        val addTodoItemEditText = EditText(this).apply {
+        val addTodoItemEditText = EditText(binding.root.context).apply {
             inputType = InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_FLAG_CAP_WORDS
         }
 
-        AlertDialog.Builder(this)
+        AlertDialog.Builder(binding.root.context)
             .setTitle(getString(R.string.create_todo_item_dialog_title))
             .setMessage(getString(R.string.create_todo_item_dialog_message))
             .setView(addTodoItemEditText)
@@ -74,5 +79,10 @@ class LaunchActivity : AppCompatActivity() {
             }
             .create()
             .show()
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 }

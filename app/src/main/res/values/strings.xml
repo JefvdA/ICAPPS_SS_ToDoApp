@@ -2,8 +2,8 @@
     <string name="app_name">ToDoApp</string>
     <string name="action_settings">Settings</string>
     <!-- Strings used for fragments for navigation -->
-    <string name="first_fragment_label">First Fragment</string>
-    <string name="second_fragment_label">Second Fragment</string>
+    <string name="todo_list_fragment_label">Todo list Fragment</string>
+    <string name="todo_item_fragment_label">Todo item Fragment</string>
     <string name="next">Next</string>
     <string name="previous">Previous</string>
     <!-- Strings commonly used in dialogs -->
@@ -11,6 +11,7 @@
     <string name="cancel">Cancel</string>
     <!-- Strings used for to-do lists -->
     <string name="list_item_todo_number">#%1$d</string>
+    <string name="add_todo_item_fab_text">AddTodoItem</string>
     <!-- Strings used for create to-do item dialog -->
     <string name="create_todo_item_dialog_title">Create todo item</string>
     <string name="create_todo_item_dialog_message">Give the description of the todo item:</string>
