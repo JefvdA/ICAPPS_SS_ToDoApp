@@ -3,12 +3,14 @@ package com.icapps.summerschool.todoapp
 import android.content.DialogInterface
 import android.os.Bundle
 import android.text.InputType
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.EditText
 import androidx.appcompat.app.AlertDialog
+import androidx.navigation.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.floatingactionbutton.FloatingActionButton
@@ -32,6 +34,10 @@ class TodoListFragment : Fragment() {
     // onDestroyView.
     private val binding get() = _binding!!
 
+    companion object {
+        private val TAG = TodoListFragment::class.java.simpleName
+    }
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -48,7 +54,10 @@ class TodoListFragment : Fragment() {
 
         todoListRecyclerView = binding.todoListRecyclerView.let {
             it.layoutManager = LinearLayoutManager(binding.root.context)
-            todoListAdapter = TodoListAdapter(mutableListOf()) {}
+            todoListAdapter = TodoListAdapter(mutableListOf()) { todoItem ->
+                Log.d(TAG, "You have clicked on ${todoItem.description}")
+                view.findNavController().navigate(R.id.action_TodoListFragment_to_TodoItemFragment)
+            }
             it.adapter = todoListAdapter
             it
         }
@@ -57,6 +66,19 @@ class TodoListFragment : Fragment() {
         addTodoItemFAB.setOnClickListener {
             showCreateTodoItemDialog()
         }
+    }
+
+    override fun onStart() {
+        todoListAdapter.todoList = listDataManager.readTodoList()
+        todoListAdapter.sortTodoList()
+
+        super.onStart()
+    }
+
+    override fun onStop() {
+        listDataManager.saveTodoList(todoListAdapter.todoList)
+
+        super.onStop()
     }
 
     private fun showCreateTodoItemDialog() {

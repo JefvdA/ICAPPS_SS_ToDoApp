@@ -31,10 +31,6 @@ class TodoItemFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
-        binding.buttonSecond.setOnClickListener {
-            findNavController().navigate(R.id.action_TodoListFragment_to_TodoItemFragment)
-        }
     }
 
     override fun onDestroyView() {
