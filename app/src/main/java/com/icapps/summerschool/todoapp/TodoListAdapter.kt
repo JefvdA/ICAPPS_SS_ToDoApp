@@ -23,11 +23,11 @@ class TodoListAdapter(var todoList: MutableList<TodoItem>) : RecyclerView.Adapte
             this.notifyItemInserted(todoList.size - 1)
         }
         sortTodoList()
+        notifyItemRangeChanged(todoList.indexOf(todoItem), todoList.size)
     }
 
     fun sortTodoList() {
         val sortedTodoList = todoList.sortedBy { it.description }.toMutableList()
         todoList = sortedTodoList
-        this.notifyDataSetChanged()
     }
 }
