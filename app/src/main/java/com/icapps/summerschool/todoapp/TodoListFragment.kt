@@ -53,11 +53,10 @@ class TodoListFragment : Fragment() {
             it
         }
 
+        addTodoItemFAB = binding.addTodoItemFAB
         addTodoItemFAB.setOnClickListener {
             showCreateTodoItemDialog()
         }
-
-        addTodoItemFAB = binding.addTodoItemFAB
     }
 
     private fun showCreateTodoItemDialog() {
