@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.fragment.navArgs
+import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.icapps.summerschool.todoapp.databinding.FragmentTodoItemBinding
@@ -16,8 +17,9 @@ import com.icapps.summerschool.todoapp.databinding.FragmentTodoItemBinding
 class TodoItemFragment : Fragment() {
 
     private var _binding: FragmentTodoItemBinding? = null
-
     private val args: TodoItemFragmentArgs by navArgs()
+
+    private lateinit var taskListAdapter: TaskListAdapter
 
     private lateinit var taskListRecyclerView: RecyclerView
     private lateinit var addTaskFAB: FloatingActionButton
@@ -41,7 +43,12 @@ class TodoItemFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        taskListRecyclerView = binding.taskListRecyclerView
+        taskListRecyclerView = binding.taskListRecyclerView.let {
+            it.layoutManager = LinearLayoutManager(binding.root.context)
+            taskListAdapter = TaskListAdapter(mutableListOf("Test1", "Test2"))
+            it.adapter = taskListAdapter
+            it
+        }
         addTaskFAB = binding.addTaskFAB
 
         (activity as AppCompatActivity).supportActionBar?.title = todoItem.description
