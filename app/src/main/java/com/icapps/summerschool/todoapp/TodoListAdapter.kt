@@ -4,7 +4,7 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 
-class TodoListAdapter(var todoList: MutableList<TodoItem>, private val clickListener: ITodoClickListener) : RecyclerView.Adapter<TodoItemViewHolder>() {
+class TodoListAdapter(var todoList: MutableList<TodoItem>, private val clickListener: TodoClickListener) : RecyclerView.Adapter<TodoItemViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TodoItemViewHolder {
         return TodoItemViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.list_item_todo, parent, false), clickListener)

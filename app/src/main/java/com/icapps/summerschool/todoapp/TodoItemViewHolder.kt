@@ -1,11 +1,10 @@
 package com.icapps.summerschool.todoapp
 
-import android.util.Log
 import android.view.View
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 
-class TodoItemViewHolder(itemView: View, private val clickListener: ITodoClickListener): RecyclerView.ViewHolder(itemView) {
+class TodoItemViewHolder(itemView: View, private val clickListener: TodoClickListener): RecyclerView.ViewHolder(itemView) {
 
     private val listDescriptionTextView: TextView = itemView.findViewById(R.id.list_item_todo_description)
     private val listNumberTextView: TextView = itemView.findViewById(R.id.list_item_todo_number)

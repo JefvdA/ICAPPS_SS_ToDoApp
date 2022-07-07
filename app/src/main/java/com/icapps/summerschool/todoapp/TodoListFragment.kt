@@ -13,6 +13,7 @@ import androidx.appcompat.app.AlertDialog
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.findNavController
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.floatingactionbutton.FloatingActionButton
@@ -76,7 +77,7 @@ class TodoListFragment : Fragment() {
             it.layoutManager = LinearLayoutManager(binding.root.context)
             todoListAdapter = TodoListAdapter(mutableListOf()) { todoItem ->
                 Log.d(TAG, "You have clicked on ${todoItem.description}")
-                view.findNavController().navigate(R.id.action_TodoListFragment_to_TodoItemFragment)
+                navigateToTaskList(todoItem)
             }
             it.adapter = todoListAdapter
             it
@@ -112,5 +113,10 @@ class TodoListFragment : Fragment() {
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
+    }
+
+    private fun navigateToTaskList(todoItem: TodoItem) {
+        val action = TodoListFragmentDirections.actionTodoListFragmentToTodoItemFragment(todoItem)
+        findNavController().navigate(action)
     }
 }
