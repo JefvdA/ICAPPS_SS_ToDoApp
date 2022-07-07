@@ -15,6 +15,11 @@
     <!-- Strings used for create to-do item dialog -->
     <string name="create_todo_item_dialog_title">Create todo item</string>
     <string name="create_todo_item_dialog_message">Give the description of the todo item:</string>
+    <!-- Strings used for to-do item task lists -->
+    <string name="add_todo_item_task_fab_text">AddTask</string>
+    <!-- Strings used for create to-do item task dialog -->
+    <string name="create_todo_item_task_dialog_title">Create new task for %1$s</string>
+    <string name="create_todo_item_task_dialog_message">Give the description of the todo item:</string>
     <!-- Lorem ipsum text -->
     <string name="lorem_ipsum">
         Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam in scelerisque sem. Mauris
