@@ -4,6 +4,8 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.appcompat.app.AppCompatActivity
+import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.icapps.summerschool.todoapp.databinding.FragmentTodoItemBinding
@@ -15,8 +17,12 @@ class TodoItemFragment : Fragment() {
 
     private var _binding: FragmentTodoItemBinding? = null
 
+    private val args: TodoItemFragmentArgs by navArgs()
+
     private lateinit var taskListRecyclerView: RecyclerView
     private lateinit var addTaskFAB: FloatingActionButton
+
+    private lateinit var todoItem: TodoItem
 
     // This property is only valid between onCreateView and
     // onDestroyView.
@@ -27,6 +33,8 @@ class TodoItemFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         _binding = FragmentTodoItemBinding.inflate(inflater, container, false)
+        todoItem = args.todoItem
+
         return binding.root
     }
 
@@ -35,6 +43,8 @@ class TodoItemFragment : Fragment() {
 
         taskListRecyclerView = binding.taskListRecyclerView
         addTaskFAB = binding.addTaskFAB
+
+        (activity as AppCompatActivity).supportActionBar?.title = todoItem.description
     }
 
     override fun onDestroyView() {
